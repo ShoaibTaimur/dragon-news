@@ -9,9 +9,9 @@ const Header = () => {
 
     return (
         <div className='mt-12.5 flex flex-col items-center gap-2.5'>
-            <img className='mb-2.5' src={logo} alt="" />
+            <img className='mb-2.5 w-80 md:w-120' src={logo} alt="" />
             <h1 className='text-[15px] text-accent'>Journalism Without Fear or Favour</h1>
-            <p className='text-[18px] font-medium'>{day}, <span className='opacity-60'>{monthYear}</span></p>
+            <p className='text-[14px] lg:text-[18px] font-medium'>{day}, <span className='opacity-60'>{monthYear}</span></p>
         </div>
     );
 };

@@ -16,14 +16,14 @@ function App() {
       <nav className='w-11/12 mx-auto my-3'>
         <Navbar />
       </nav>
-      <main className='w-11/12 mx-auto my-3 grid grid-cols-12'>
-        <aside className='col-span-3'>
+      <main className='w-11/12 mx-auto my-3 flex sm:grid sm:grid-cols-12 gap-3'>
+        <aside className='w-[40%] sm:w-full sm:col-span-3'>
           <LeftAsset />
         </aside>
-        <section className="main col-span-6">
+        <section className="w-[60%] sm:w-full main sm:col-span-6">
           <Outlet />
         </section>
-        <aside className='col-span-3'>
+        <aside className='hidden sm:grid sm:col-span-3'>
           <RightAsset />
         </aside>
       </main>
