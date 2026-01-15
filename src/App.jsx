@@ -16,7 +16,7 @@ function App() {
       <nav className='w-11/12 mx-auto my-3'>
         <Navbar />
       </nav>
-      <main className='w-11/12 mx-auto my-3 *:border grid grid-cols-12'>
+      <main className='w-11/12 mx-auto my-3 grid grid-cols-12'>
         <aside className='col-span-3'>
           <LeftAsset />
         </aside>

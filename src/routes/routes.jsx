@@ -7,14 +7,19 @@ export const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
-        children:[
+        children: [
             {
-                index:true,
-                element:<Home />
+                index: true,
+                element: <Home />
             },
             {
-                path:'/category/:id',
-                element:<CategoryNews />
+                path: '/category/:id',
+                element: <CategoryNews />,
+                loader: async () => {
+                    const res = await fetch("/news.json");
+                    const data = await res.json();
+                    return data;
+                }
             },
         ]
     },
@@ -27,7 +32,7 @@ export const router = createBrowserRouter([
     //     element:
     // },
     {
-        path:'/*',
+        path: '/*',
         element: <h1>Error</h1>
     }
 ])
