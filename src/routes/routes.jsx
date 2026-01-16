@@ -5,6 +5,7 @@ import CategoryNews from "../Components/Pages/CategoryNews/CategoryNews";
 import Login from "../Components/Pages/Login/Login";
 import Register from "../Components/Pages/Register/Register";
 import AuthLayout from "../Components/Pages/AuthLayout";
+import NewsDetails from "../Components/Pages/NewsDetails/NewsDetails";
 
 export const router = createBrowserRouter([
     {
@@ -29,21 +30,26 @@ export const router = createBrowserRouter([
     {
         path: '/auth',
         element: <AuthLayout />,
-        children:[
+        children: [
             {
-                path:'/auth/login',
-                element:<Login />
+                path: '/auth/login',
+                element: <Login />
             },
             {
-                path:'/auth/register',
-                element:<Register />
+                path: '/auth/register',
+                element: <Register />
             }
         ]
     },
-    // {
-    //     path:'/news',
-    //     element:
-    // },
+    {
+        path: '/news-details/:id',
+        element: <NewsDetails />,
+        loader: async () => {
+            const res = await fetch("/news.json");
+            const data = await res.json();
+            return data;
+        }
+    },
     {
         path: '/*',
         element: <h1>Error</h1>

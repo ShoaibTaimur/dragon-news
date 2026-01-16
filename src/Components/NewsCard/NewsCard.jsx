@@ -3,11 +3,12 @@ import { BsSave } from 'react-icons/bs';
 import { CiShare2 } from 'react-icons/ci';
 import { FaEye } from 'react-icons/fa';
 import { FcRating } from 'react-icons/fc';
+import { Link } from 'react-router';
 
 const NewsCard = ({news}) => {
     const [expanded, setExpanded] = useState(false);
 
-    const {title,author,thumbnail_url,details,rating,total_view}=news;
+    const {id,title,author,thumbnail_url,details,rating,total_view}=news;
     const maxPreviewLength = 200;
     const hasLongDetails = typeof details === 'string' && details.length > maxPreviewLength;
     const visibleDetails = hasLongDetails && !expanded
@@ -15,7 +16,7 @@ const NewsCard = ({news}) => {
         : details;
 
     return (
-        <div className='border border-gray-200 shadow-md'>
+        <Link to={`/news-details/${id}`} className='border border-gray-200 shadow-md'>
             <div className='flex items-center gap-5 bg-base-200 p-2 rounded-lg'>
                 <div className='w-[15%] flex justify-center'>
                     <img className='w-7 lg:w-10 rounded-full' src={author.img} alt="" />
@@ -48,7 +49,7 @@ const NewsCard = ({news}) => {
                     <p className='flex items-center gap-2'><FaEye />{total_view}</p>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 

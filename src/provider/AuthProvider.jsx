@@ -1,42 +1,64 @@
 import React, { createContext, useEffect, useState } from 'react';
 import app from '../firebase/firebase.config';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 
-export const AuthContext=createContext();
-const auth=getAuth(app);
+export const AuthContext = createContext();
+const auth = getAuth(app);
 
-const AuthProvider = ({children}) => {
-    const [user,setUser]=useState(null);
+const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+    // create user
+    const createUser = async (email, password, name, photoURL) => {
+        const user = await createUserWithEmailAndPassword(auth, email, password)
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage);
+            });
 
-    const createUser=async(email,password,name,photoURL)=>{
-        const user= await createUserWithEmailAndPassword(auth,email,password)
-        .catch((error)=>{
-            const errorCode=error.code;
-            const errorMessage=error.message;
-            alert(errorMessage);
-        });
-
-        await updateProfile(user.user,{
-            displayName:name,
-            photoURL:photoURL
+        await updateProfile(user.user, {
+            displayName: name,
+            photoURL: photoURL
         });
         return user.user;
     }
-    console.log(user);
 
-    useEffect(()=>{
-        const websiteState= onAuthStateChanged(auth,(currentUser)=>{
+
+    //Logout User
+    const logOut = () => {
+        return signOut(auth);
+    }
+
+
+
+    //Login user
+    const login = async(email, password) => {
+        return await signInWithEmailAndPassword(auth,email,password)
+        .then(res=>{
+            const user=res.user;
+            setUser(user)
+        })
+    }
+
+
+    useEffect(() => {
+        const websiteState = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
         })
-        return ()=>{
+        return () => {
             websiteState();
         }
     })
+    console.log(user);
 
-    const authData={
+
+    
+    const authData = {
         user,
         setUser,
-        createUser
+        createUser,
+        logOut,
+        login
     };
 
     return <AuthContext value={authData}>
