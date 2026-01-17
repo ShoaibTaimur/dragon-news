@@ -12,7 +12,6 @@ const NewsDetails = () => {
         const newsDetails = data.find((singleNews) => singleNews.id === id);
         setNews(newsDetails);
     }, [data,id])
-    console.log(news);
 
     return (
         <div>
@@ -20,11 +19,11 @@ const NewsDetails = () => {
                 <Header />
             </header>
             <main className='w-11/12 mx-auto grid grid-cols-12 gap-5 py-10'>
-                <section className='col-span-9'>
-                    <h2 className='font-semibold text-[20px]'>Dragon News</h2>
+                <section className='col-span-12 sm:col-span-9'>
+                    <h2 className='font-semibold text-[18px] sm:text-[20px]'>Dragon News</h2>
                     <NewsDetail news={news} />
                 </section>
-                <aside className='col-span-3'>
+                <aside className='col-span-3 hidden sm:flex'>
                     <RightAsset />
                 </aside>
             </main>

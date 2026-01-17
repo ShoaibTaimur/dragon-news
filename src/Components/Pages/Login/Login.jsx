@@ -1,10 +1,13 @@
 import React, { use } from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { AuthContext } from '../../../provider/AuthProvider';
+import { useNavigate } from 'react-router';
 
 const Login = () => {
 
-    const { login } = use(AuthContext);
+    const { login, error } = use(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -12,6 +15,7 @@ const Login = () => {
         const email = form.email.value;
         const password = form.password.value;
         login(email, password);
+        navigate(`${location.state ? location.state : "/"}`);
     }
 
 
@@ -27,6 +31,7 @@ const Login = () => {
                         {/* Password */}
                         <label className="label font-bold">Password</label>
                         <input name='password' type="password" className="input" placeholder="Password" required />
+                        {error && <p className="text-red-400">{error.message}</p> }
                         <button className="btn btn-neutral mt-4">Login</button>
                         <Link to='/auth/register' className="link link-hover text-center mt-5 mb-10">Dont have an account? <span className='text-red-300'>Register now</span></Link>
                     </form>

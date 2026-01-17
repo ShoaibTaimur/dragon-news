@@ -6,6 +6,7 @@ import Login from "../Components/Pages/Login/Login";
 import Register from "../Components/Pages/Register/Register";
 import AuthLayout from "../Components/Pages/AuthLayout";
 import NewsDetails from "../Components/Pages/NewsDetails/NewsDetails";
+import PrivateRoute from "../provider/PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -43,7 +44,10 @@ export const router = createBrowserRouter([
     },
     {
         path: '/news-details/:id',
-        element: <NewsDetails />,
+        element: (
+            <PrivateRoute>
+                <NewsDetails />
+            </PrivateRoute>),
         loader: async () => {
             const res = await fetch("/news.json");
             const data = await res.json();

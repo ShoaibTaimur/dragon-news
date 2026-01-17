@@ -7,8 +7,11 @@ const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error,setError]=useState("")
     // create user
     const createUser = async (email, password, name, photoURL) => {
+        setLoading(true);
         const user = await createUserWithEmailAndPassword(auth, email, password)
             .catch((error) => {
                 const errorCode = error.code;
@@ -32,38 +35,49 @@ const AuthProvider = ({ children }) => {
 
 
     //Login user
-    const login = async(email, password) => {
-        return await signInWithEmailAndPassword(auth,email,password)
-        .then(res=>{
-            const user=res.user;
-            setUser(user)
-        })
+    const login = async (email, password) => {
+        setLoading(true);
+        return await signInWithEmailAndPassword(auth, email, password)
+            .then(res => {
+                const user = res.user;
+                setUser(user);
+            })
+            .catch(error=>{
+                const errorCode=error.code;
+                // const errorMessage=error.message;
+                // alert(errorMessage);
+                setError(errorCode);
+            })
     }
 
 
     useEffect(() => {
         const websiteState = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-        })
+            setLoading(false);
+        });
         return () => {
             websiteState();
-        }
-    })
-    console.log(user);
+        };
+    }, []);
 
 
-    
+
     const authData = {
         user,
         setUser,
         createUser,
         logOut,
-        login
+        login,
+        loading,
+        error
     };
 
-    return <AuthContext value={authData}>
-        {children}
-    </AuthContext>;
+    return (
+        <AuthContext.Provider value={authData}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 export default AuthProvider;
